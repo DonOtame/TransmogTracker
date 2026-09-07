@@ -1,5 +1,7 @@
 local ADDON_NAME, ns = ...
 
+local pendingRestoreSetID = nil
+
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
 frame:RegisterEvent("PLAYER_LOGIN")
@@ -10,9 +12,15 @@ frame:SetScript("OnEvent", function(self, event, arg1)
         TransmogTrackerDB = TransmogTrackerDB or {}
     elseif event == "PLAYER_LOGIN" then
         if TransmogTrackerDB.trackedSetID then
-            ns.TrackerFrame:SetTrackedSet(TransmogTrackerDB.trackedSetID)
+            if not ns.TrackerFrame:SetTrackedSet(TransmogTrackerDB.trackedSetID) then
+                pendingRestoreSetID = TransmogTrackerDB.trackedSetID
+            end
         end
     elseif event == "TRANSMOG_COLLECTION_UPDATED" then
+        if pendingRestoreSetID then
+            ns.TrackerFrame:SetTrackedSet(pendingRestoreSetID)
+            pendingRestoreSetID = nil
+        end
         ns.TrackerFrame:Refresh()
     end
 end)

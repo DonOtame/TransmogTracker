@@ -37,6 +37,10 @@ local function TryInstallHook()
             scrollBox:ForEachFrame(function(rowButton)
                 if rowButton.setID then
                     GetOrCreateTrackButton(rowButton):Show()
+                else
+                    if rowButton.TransmogTrackerButton then
+                        rowButton.TransmogTrackerButton:Hide()
+                    end
                 end
             end)
         end)
@@ -47,7 +51,15 @@ local function TryInstallHook()
     end, ns)
 end
 
-local ok, err = pcall(TryInstallHook)
-if not ok then
-    print("|cffff0000[TransmogTracker]|r No se pudo enganchar la lista de Sets (" .. tostring(err) .. "). Usa /tt track <setID> para trackear manualmente.")
+local function InstallHookSafely()
+    local ok, err = pcall(TryInstallHook)
+    if not ok then
+        print("|cffff0000[TransmogTracker]|r No se pudo enganchar la lista de Sets (" .. tostring(err) .. "). Usa /tt track <setID> para trackear manualmente.")
+    end
+end
+
+if C_AddOns.IsAddOnLoaded("Blizzard_Collections") then
+    InstallHookSafely()
+else
+    EventUtil.ContinueOnAddOnLoaded("Blizzard_Collections", InstallHookSafely)
 end
