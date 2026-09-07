@@ -6,3 +6,4 @@
 ## SavedVariables: TransmogTrackerDB
 
 Core.lua
+SetData.lua
