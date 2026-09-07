@@ -28,12 +28,22 @@ local function TryInstallHook()
         error("SetsCollectionFrame.ListContainer.ScrollBox not found")
     end
 
+    local callbackFailed = false
     scrollBox:RegisterCallback("OnUpdate", function()
-        scrollBox:ForEachFrame(function(rowButton)
-            if rowButton.setID then
-                GetOrCreateTrackButton(rowButton):Show()
-            end
+        if callbackFailed then
+            return  -- Silent no-op after first failure
+        end
+        local ok, err = pcall(function()
+            scrollBox:ForEachFrame(function(rowButton)
+                if rowButton.setID then
+                    GetOrCreateTrackButton(rowButton):Show()
+                end
+            end)
         end)
+        if not ok then
+            callbackFailed = true
+            print("|cffff0000[TransmogTracker]|r No se pudo enganchar la lista de Sets (" .. tostring(err) .. "). Usa /tt track <setID> para trackear manualmente.")
+        end
     end, ns)
 end
 
