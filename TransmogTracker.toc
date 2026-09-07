@@ -1,0 +1,8 @@
+## Interface: 110002
+## Title: TransmogTracker
+## Notes: Trackea piezas faltantes de un set oficial de transfiguracion, ancla al tracker de misiones
+## Author: DonOtame
+## Version: 1.0
+## SavedVariables: TransmogTrackerDB
+
+Core.lua
