@@ -9,7 +9,7 @@ function SetData:BuildSetStatus(setID)
     end
 
     local sources = C_TransmogSets.GetSetSources(setID)
-    if not sources then
+    if not sources or next(sources) == nil then
         return nil
     end
 
@@ -33,6 +33,8 @@ function SetData:BuildSetStatus(setID)
 
     local total = #collected + #missing
     local percent = total > 0 and math.floor((#collected / total) * 100) or 100
+
+    table.sort(missing, function(a, b) return (a.inventorySlot or 99) < (b.inventorySlot or 99) end)
 
     return {
         setID = setID,

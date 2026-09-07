@@ -1,4 +1,5 @@
 local ADDON_NAME, ns = ...
+TransmogTrackerDB = TransmogTrackerDB or {}
 ns.TrackerFrame = ns.TrackerFrame or {}
 local TrackerFrame = ns.TrackerFrame
 
@@ -18,8 +19,17 @@ frame:SetScript("OnDragStart", frame.StartMoving)
 frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
 frame:Hide()
 
+frame.collapsed = false
+
+frame.collapseButton = CreateFrame("Button", nil, frame)
+frame.collapseButton:SetSize(12, 12)
+frame.collapseButton:SetPoint("TOPLEFT", 6, -8)
+frame.collapseButton.text = frame.collapseButton:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+frame.collapseButton.text:SetAllPoints(frame.collapseButton)
+frame.collapseButton.text:SetText("▼")
+
 frame.title = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-frame.title:SetPoint("TOPLEFT", 10, -8)
+frame.title:SetPoint("LEFT", frame.collapseButton, "RIGHT", 4, 0)
 frame.title:SetText("")
 
 frame.progress = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
@@ -77,6 +87,7 @@ end
 
 function TrackerFrame:Populate(status)
     local frame = self.frame
+    self.lastStatus = status
     frame.title:SetText(status.name)
 
     if #status.missing == 0 then
@@ -84,6 +95,11 @@ function TrackerFrame:Populate(status)
     else
         frame.progress:SetText(string.format("%d/%d piezas (%d%%)",
             #status.collected, #status.collected + #status.missing, status.percent))
+    end
+
+    if frame.collapsed then
+        -- Minimized: keep header text current but don't force rows/height.
+        return
     end
 
     local previousRow
@@ -113,6 +129,28 @@ function TrackerFrame:Populate(status)
     frame.stopButton:SetPoint("TOP", frame.rowsContainer, "TOP", 0, -(visibleRows * (ROW_HEIGHT + 2)) - 6)
     frame:SetHeight(60 + visibleRows * (ROW_HEIGHT + 2) + 26)
 end
+
+function TrackerFrame:SetCollapsed(collapsed)
+    local frame = self.frame
+    frame.collapsed = collapsed
+    if collapsed then
+        frame.rowsContainer:Hide()
+        frame.stopButton:Hide()
+        frame.collapseButton.text:SetText("▶")
+        frame:SetHeight(40)
+    else
+        frame.rowsContainer:Show()
+        frame.stopButton:Show()
+        frame.collapseButton.text:SetText("▼")
+        if self.lastStatus then
+            self:Populate(self.lastStatus)
+        end
+    end
+end
+
+frame.collapseButton:SetScript("OnClick", function()
+    TrackerFrame:SetCollapsed(not TrackerFrame.frame.collapsed)
+end)
 
 function TrackerFrame:SetTrackedSet(setID)
     local status = ns.SetData:BuildSetStatus(setID)
