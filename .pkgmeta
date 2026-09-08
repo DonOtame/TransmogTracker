@@ -1,5 +1,9 @@
 package-as: TransmogTracker
+manual-changelog:
+  filename: CHANGELOG.md
+  markup-type: markdown
 ignore:
+  - CHANGELOG.md
   - docs
   - readme.md
   - LICENSE
