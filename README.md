@@ -1,5 +1,7 @@
 # TransmogTracker
 
+> Track missing pieces of an official transmog set, anchored to your Objective Tracker.
+
 A World of Warcraft (retail) addon that tracks one official transmog
 (appearance) set at a time and shows which pieces you're still missing —
 the same "track this recipe" experience professions already have, but for
