@@ -6,7 +6,7 @@ local function GetOrCreateDetailTrackButton(detailsFrame)
     end
     local button = CreateFrame("Button", nil, detailsFrame, "UIPanelButtonTemplate")
     button:SetSize(70, 22)
-    button:SetText("Seguir")
+    button:SetText(ns.L.TRACK_BUTTON)
     button:SetPoint("LEFT", detailsFrame.VariantSetsDropdown, "RIGHT", 8, 0)
     button:SetScript("OnClick", function()
         local setID = WardrobeCollectionFrame.SetsCollectionFrame.selectedSetID
@@ -47,7 +47,7 @@ local function TryInstallHook()
         end)
         if not ok then
             detailButtonFailed = true
-            print("|cffff0000[TransmogTracker]|r No se pudo enganchar el boton de dificultad (" .. tostring(err) .. "). Usa /tt track <setID> para trackear manualmente.")
+            ns.PrintError(string.format(ns.L.HOOK_FAIL_DETAIL, tostring(err)))
         end
     end, ns)
 end
@@ -55,7 +55,7 @@ end
 local function InstallHookSafely()
     local ok, err = pcall(TryInstallHook)
     if not ok then
-        print("|cffff0000[TransmogTracker]|r No se pudo enganchar la lista de Sets (" .. tostring(err) .. "). Usa /tt track <setID> para trackear manualmente.")
+        ns.PrintError(string.format(ns.L.HOOK_FAIL_LIST, tostring(err)))
     end
 end
 

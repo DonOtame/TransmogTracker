@@ -43,7 +43,7 @@ frame.rowsContainer:SetPoint("RIGHT", frame, "RIGHT", -10, 0)
 
 frame.stopButton = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
 frame.stopButton:SetSize(140, 20)
-frame.stopButton:SetText("Detener seguimiento")
+frame.stopButton:SetText(ns.L.STOP_TRACKING)
 frame.stopButton:SetScript("OnClick", function() TrackerFrame:StopTracking() end)
 
 TrackerFrame.frame = frame
@@ -91,9 +91,9 @@ function TrackerFrame:Populate(status)
     frame.title:SetText(status.name)
 
     if #status.missing == 0 then
-        frame.progress:SetText("|cff00ff00Set completo!|r")
+        frame.progress:SetText("|cff00ff00" .. ns.L.SET_COMPLETE .. "|r")
     else
-        frame.progress:SetText(string.format("%d/%d piezas (%d%%)",
+        frame.progress:SetText(string.format(ns.L.PIECES_FORMAT,
             #status.collected, #status.collected + #status.missing, status.percent))
     end
 
@@ -108,7 +108,7 @@ function TrackerFrame:Populate(status)
         row.itemID = piece.itemID
         local itemName, _, _, _, _, _, _, _, _, itemIcon = GetItemInfo(piece.itemID)
         row.icon:SetTexture(itemIcon or 134400) -- 134400 = default question-mark icon
-        row.text:SetText(itemName or ("Item " .. piece.itemID))
+        row.text:SetText(itemName or string.format(ns.L.ITEM_FALLBACK, piece.itemID))
         row.warning:SetShown(not piece.usableByPlayer)
 
         if previousRow then
