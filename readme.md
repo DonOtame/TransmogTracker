@@ -6,6 +6,8 @@ Ever open the Wardrobe, see **"7/10"** on a set you've been farming for weeks,
 and have no idea which piece you're actually missing — or whether you can
 even wear it? TransmogTracker fixes that.
 
+![Track button next to the difficulty selector](img/appearances.png)
+
 ## What it does
 
 - **One click and you're tracking it.** A Track button sits right next to
@@ -38,6 +40,8 @@ Or grab it from CurseForge / Wago once it's up there.
 Open **Collections → Appearances → Sets**, click into any set, pick your
 difficulty, click **Track**. That's it — the tracker appears anchored to
 your Objective Tracker and updates as you go.
+
+![Tracker window anchored to the Objective Tracker](img/frame.png)
 
 Done tracking something? `/tt stop` clears it.
 
