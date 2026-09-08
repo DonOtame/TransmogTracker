@@ -24,9 +24,9 @@ frame.collapsed = false
 frame.collapseButton = CreateFrame("Button", nil, frame)
 frame.collapseButton:SetSize(12, 12)
 frame.collapseButton:SetPoint("TOPLEFT", 6, -8)
-frame.collapseButton.text = frame.collapseButton:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-frame.collapseButton.text:SetAllPoints(frame.collapseButton)
-frame.collapseButton.text:SetText("▼")
+frame.collapseButton.icon = frame.collapseButton:CreateTexture(nil, "OVERLAY")
+frame.collapseButton.icon:SetAllPoints(frame.collapseButton)
+frame.collapseButton.icon:SetTexture("Interface/Buttons/UI-MinusButton-Up")
 
 frame.title = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 frame.title:SetPoint("LEFT", frame.collapseButton, "RIGHT", 4, 0)
@@ -136,12 +136,12 @@ function TrackerFrame:SetCollapsed(collapsed)
     if collapsed then
         frame.rowsContainer:Hide()
         frame.stopButton:Hide()
-        frame.collapseButton.text:SetText("▶")
+        frame.collapseButton.icon:SetTexture("Interface/Buttons/UI-PlusButton-Up")
         frame:SetHeight(40)
     else
         frame.rowsContainer:Show()
         frame.stopButton:Show()
-        frame.collapseButton.text:SetText("▼")
+        frame.collapseButton.icon:SetTexture("Interface/Buttons/UI-MinusButton-Up")
         if self.lastStatus then
             self:Populate(self.lastStatus)
         end
