@@ -7,7 +7,7 @@ local function GetOrCreateDetailTrackButton(detailsFrame)
     local button = CreateFrame("Button", nil, detailsFrame, "UIPanelButtonTemplate")
     button:SetSize(70, 22)
     button:SetText(ns.L.TRACK_BUTTON)
-    button:SetPoint("LEFT", detailsFrame.VariantSetsDropdown, "RIGHT", 8, 0)
+    button:SetPoint("RIGHT", detailsFrame.VariantSetsDropdown, "LEFT", -8, 0)
     button:SetScript("OnClick", function()
         local setID = WardrobeCollectionFrame.SetsCollectionFrame.selectedSetID
         if setID then
