@@ -5,9 +5,9 @@ local function GetOrCreateDetailTrackButton(detailsFrame)
         return detailsFrame.TransmogTrackerButton
     end
     local button = CreateFrame("Button", nil, detailsFrame, "UIPanelButtonTemplate")
-    button:SetSize(90, 22)
-    button:SetText("Trackear")
-    button:SetPoint("TOP", detailsFrame.VariantSetsDropdown, "BOTTOM", 0, -4)
+    button:SetSize(70, 22)
+    button:SetText("Seguir")
+    button:SetPoint("LEFT", detailsFrame.VariantSetsDropdown, "RIGHT", 8, 0)
     button:SetScript("OnClick", function()
         local setID = WardrobeCollectionFrame.SetsCollectionFrame.selectedSetID
         if setID then
