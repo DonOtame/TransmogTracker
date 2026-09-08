@@ -73,13 +73,6 @@ local function AcquireRow(index)
         row.text:SetPoint("RIGHT", row, "RIGHT", 0, 0)
         row.text:SetJustifyH("LEFT")
 
-        row:SetScript("OnEnter", function(self)
-            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-            GameTooltip:SetItemByID(self.itemID)
-            GameTooltip:Show()
-        end)
-        row:SetScript("OnLeave", GameTooltip_Hide)
-
         frame.rows[index] = row
     end
     return row
@@ -105,7 +98,6 @@ function TrackerFrame:Populate(status)
     local previousRow
     for i, piece in ipairs(status.missing) do
         local row = AcquireRow(i)
-        row.itemID = piece.itemID
         local itemName, _, _, _, _, _, _, _, _, itemIcon = GetItemInfo(piece.itemID)
         row.icon:SetTexture(itemIcon or 134400) -- 134400 = default question-mark icon
         row.text:SetText(itemName or string.format(ns.L.ITEM_FALLBACK, piece.itemID))
