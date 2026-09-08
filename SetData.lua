@@ -8,17 +8,17 @@ function SetData:BuildSetStatus(setID)
         return nil
     end
 
-    local sources = C_TransmogSets.GetSetSources(setID)
-    if not sources or next(sources) == nil then
+    local sourceIDs = C_TransmogSets.GetAllSourceIDs(setID)
+    if not sourceIDs or #sourceIDs == 0 then
         return nil
     end
 
     local collected, missing = {}, {}
 
-    for sourceID, isCollected in pairs(sources) do
+    for _, sourceID in ipairs(sourceIDs) do
         local sourceInfo = C_TransmogCollection.GetSourceInfo(sourceID)
         if sourceInfo and sourceInfo.itemID then
-            if isCollected then
+            if sourceInfo.isCollected then
                 table.insert(collected, sourceInfo.itemID)
             else
                 table.insert(missing, {
