@@ -1,6 +1,6 @@
 package-as: TransmogTracker
 ignore:
   - docs
-  - README.md
+  - readme.md
   - LICENSE
   - .github
