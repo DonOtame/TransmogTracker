@@ -8,23 +8,29 @@ function SetData:BuildSetStatus(setID)
         return nil
     end
 
-    local sourceIDs = C_TransmogSets.GetAllSourceIDs(setID)
-    if not sourceIDs or #sourceIDs == 0 then
+    -- GetAllSourceIDs returns every individual appearance variant per slot
+    -- (e.g. 2 alternate looks for the same helm), which inflates counts
+    -- beyond Blizzard's own Wardrobe count. GetSetPrimaryAppearances
+    -- returns exactly one entry per conceptual slot (confirmed live:
+    -- 9 entries for a set Blizzard's own UI also shows as X/9), and each
+    -- entry's appearanceID is itself a valid sourceID for GetSourceInfo.
+    local primaryAppearances = C_TransmogSets.GetSetPrimaryAppearances(setID)
+    if not primaryAppearances or #primaryAppearances == 0 then
         return nil
     end
 
     local collected, missing = {}, {}
 
-    for _, sourceID in ipairs(sourceIDs) do
-        local sourceInfo = C_TransmogCollection.GetSourceInfo(sourceID)
+    for _, entry in ipairs(primaryAppearances) do
+        local sourceInfo = C_TransmogCollection.GetSourceInfo(entry.appearanceID)
         if sourceInfo and sourceInfo.itemID then
-            if sourceInfo.isCollected then
+            if entry.collected then
                 table.insert(collected, sourceInfo.itemID)
             else
                 table.insert(missing, {
                     itemID = sourceInfo.itemID,
-                    sourceID = sourceID,
-                    inventorySlot = sourceInfo.inventorySlot,
+                    sourceID = entry.appearanceID,
+                    categoryID = sourceInfo.categoryID,
                     usableByPlayer = sourceInfo.isValidSourceForPlayer ~= false,
                 })
             end
@@ -34,7 +40,7 @@ function SetData:BuildSetStatus(setID)
     local total = #collected + #missing
     local percent = total > 0 and math.floor((#collected / total) * 100) or 100
 
-    table.sort(missing, function(a, b) return (a.inventorySlot or 99) < (b.inventorySlot or 99) end)
+    table.sort(missing, function(a, b) return (a.categoryID or 99) < (b.categoryID or 99) end)
 
     return {
         setID = setID,
