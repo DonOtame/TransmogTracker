@@ -41,6 +41,20 @@ frame.rowsContainer = CreateFrame("Frame", nil, frame)
 frame.rowsContainer:SetPoint("TOPLEFT", frame.progress, "BOTTOMLEFT", 0, -8)
 frame.rowsContainer:SetPoint("RIGHT", frame, "RIGHT", -10, 0)
 
+frame.warningLegend = CreateFrame("Frame", nil, frame)
+frame.warningLegend:SetHeight(16)
+frame.warningLegend.icon = frame.warningLegend:CreateTexture(nil, "OVERLAY")
+frame.warningLegend.icon:SetSize(14, 14)
+frame.warningLegend.icon:SetPoint("LEFT", 0, 0)
+frame.warningLegend.icon:SetTexture("Interface/DialogFrame/UI-Dialog-Icon-AlertNew")
+frame.warningLegend.text = frame.warningLegend:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
+frame.warningLegend.text:SetPoint("LEFT", frame.warningLegend.icon, "RIGHT", 4, 0)
+frame.warningLegend.text:SetPoint("RIGHT", frame.warningLegend, "RIGHT", 0, 0)
+frame.warningLegend.text:SetJustifyH("LEFT")
+frame.warningLegend.text:SetWordWrap(true)
+frame.warningLegend.text:SetText(ns.L.WARNING_LEGEND)
+frame.warningLegend:Hide()
+
 frame.stopButton = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
 frame.stopButton:SetSize(70, 20)
 frame.stopButton:SetText(ns.L.STOP_TRACKING)
@@ -72,6 +86,7 @@ local function AcquireRow(index)
         row.text:SetPoint("LEFT", row.warning, "RIGHT", 4, 0)
         row.text:SetPoint("RIGHT", row, "RIGHT", 0, 0)
         row.text:SetJustifyH("LEFT")
+        row.text:SetWordWrap(false)
 
         frame.rows[index] = row
     end
@@ -96,12 +111,16 @@ function TrackerFrame:Populate(status)
     end
 
     local previousRow
+    local hasWarning = false
     for i, piece in ipairs(status.missing) do
         local row = AcquireRow(i)
         local itemName, _, _, _, _, _, _, _, _, itemIcon = GetItemInfo(piece.itemID)
         row.icon:SetTexture(itemIcon or 134400) -- 134400 = default question-mark icon
         row.text:SetText(itemName or string.format(ns.L.ITEM_FALLBACK, piece.itemID))
         row.warning:SetShown(not piece.usableByPlayer)
+        if not piece.usableByPlayer then
+            hasWarning = true
+        end
 
         if previousRow then
             row:SetPoint("TOP", previousRow, "BOTTOM", 0, -2)
@@ -117,9 +136,22 @@ function TrackerFrame:Populate(status)
     end
 
     local visibleRows = math.max(#status.missing, 1)
+    local rowsHeight = visibleRows * (ROW_HEIGHT + 2)
+    local legendHeight = 0
+
+    frame.warningLegend:ClearAllPoints()
+    frame.warningLegend:SetPoint("TOP", frame.rowsContainer, "TOP", 0, -rowsHeight - 4)
+    frame.warningLegend:SetPoint("LEFT", frame.rowsContainer, "LEFT", 0, 0)
+    frame.warningLegend:SetPoint("RIGHT", frame.rowsContainer, "RIGHT", 0, 0)
+    frame.warningLegend:SetShown(hasWarning)
+    if hasWarning then
+        legendHeight = math.max(16, frame.warningLegend.text:GetStringHeight())
+        frame.warningLegend:SetHeight(legendHeight)
+    end
+
     frame.stopButton:ClearAllPoints()
-    frame.stopButton:SetPoint("TOP", frame.rowsContainer, "TOP", 0, -(visibleRows * (ROW_HEIGHT + 2)) - 6)
-    frame:SetHeight(60 + visibleRows * (ROW_HEIGHT + 2) + 26)
+    frame.stopButton:SetPoint("TOP", frame.rowsContainer, "TOP", 0, -rowsHeight - legendHeight - 6)
+    frame:SetHeight(60 + rowsHeight + legendHeight + 26)
 end
 
 function TrackerFrame:SetCollapsed(collapsed)
@@ -128,6 +160,7 @@ function TrackerFrame:SetCollapsed(collapsed)
     if collapsed then
         frame.rowsContainer:Hide()
         frame.stopButton:Hide()
+        frame.warningLegend:Hide()
         frame.collapseButton.icon:SetTexture("Interface/Buttons/UI-PlusButton-Up")
         frame:SetHeight(40)
     else

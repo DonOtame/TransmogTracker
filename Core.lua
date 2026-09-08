@@ -28,6 +28,7 @@ end)
 SLASH_TRANSMOGTRACKER1 = "/tt"
 SlashCmdList["TRANSMOGTRACKER"] = function(msg)
     local command, rest = msg:match("^(%S*)%s*(.-)$")
+    command = command:lower()
     if command == "track" then
         local setID = tonumber(rest)
         if not setID then

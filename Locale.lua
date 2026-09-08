@@ -14,6 +14,7 @@ local L = {
     INVALID_SET = "Set %d is not valid.",
     TRACKING_STOPPED = "Tracking stopped.",
     USAGE_GENERAL = "Usage: /tt track <setID> | /tt stop",
+    WARNING_LEGEND = "Not wearable on this character, but still counts toward your account-wide collection.",
 }
 ns.L = L
 
@@ -31,6 +32,7 @@ if locale == "esES" or locale == "esMX" then
     L.INVALID_SET = "Set %d no valido."
     L.TRACKING_STOPPED = "Seguimiento detenido."
     L.USAGE_GENERAL = "Uso: /tt track <setID> | /tt stop"
+    L.WARNING_LEGEND = "No equipable en este personaje, pero igual cuenta para tu coleccion de cuenta."
 end
 
 function ns.Print(msg)
