@@ -42,7 +42,7 @@ frame.rowsContainer:SetPoint("TOPLEFT", frame.progress, "BOTTOMLEFT", 0, -8)
 frame.rowsContainer:SetPoint("RIGHT", frame, "RIGHT", -10, 0)
 
 frame.stopButton = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
-frame.stopButton:SetSize(140, 20)
+frame.stopButton:SetSize(70, 20)
 frame.stopButton:SetText(ns.L.STOP_TRACKING)
 frame.stopButton:SetScript("OnClick", function() TrackerFrame:StopTracking() end)
 
