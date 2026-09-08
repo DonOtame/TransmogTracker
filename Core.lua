@@ -31,18 +31,18 @@ SlashCmdList["TRANSMOGTRACKER"] = function(msg)
     if command == "track" then
         local setID = tonumber(rest)
         if not setID then
-            print("|cff00ff00[TransmogTracker]|r Uso: /tt track <setID>")
+            ns.Print(ns.L.USAGE_TRACK)
             return
         end
         if ns.TrackerFrame:SetTrackedSet(setID) then
-            print("|cff00ff00[TransmogTracker]|r Trackeando set " .. setID)
+            ns.Print(string.format(ns.L.NOW_TRACKING, setID))
         else
-            print("|cffff0000[TransmogTracker]|r Set " .. setID .. " no valido.")
+            ns.PrintError(string.format(ns.L.INVALID_SET, setID))
         end
     elseif command == "stop" then
         ns.TrackerFrame:StopTracking()
-        print("|cff00ff00[TransmogTracker]|r Seguimiento detenido.")
+        ns.Print(ns.L.TRACKING_STOPPED)
     else
-        print("|cff00ff00[TransmogTracker]|r Uso: /tt track <setID> | /tt stop")
+        ns.Print(ns.L.USAGE_GENERAL)
     end
 end
