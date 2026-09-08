@@ -4,14 +4,18 @@ local pendingRestoreSetID = nil
 
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
-frame:RegisterEvent("PLAYER_LOGIN")
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:RegisterEvent("TRANSMOG_COLLECTION_UPDATED")
 
-frame:SetScript("OnEvent", function(self, event, arg1)
+frame:SetScript("OnEvent", function(self, event, arg1, arg2)
     if event == "ADDON_LOADED" and arg1 == ADDON_NAME then
         TransmogTrackerDB = TransmogTrackerDB or {}
-    elseif event == "PLAYER_LOGIN" then
-        if TransmogTrackerDB.trackedSetID then
+    elseif event == "PLAYER_ENTERING_WORLD" then
+        -- PLAYER_ENTERING_WORLD fires on every loading screen (login, zone,
+        -- instance transitions), not just once - only restore on the first
+        -- one (login or /reload), not on every subsequent zone change.
+        local isInitialLogin, isReloadingUi = arg1, arg2
+        if (isInitialLogin or isReloadingUi) and TransmogTrackerDB.trackedSetID then
             if not ns.TrackerFrame:SetTrackedSet(TransmogTrackerDB.trackedSetID) then
                 pendingRestoreSetID = TransmogTrackerDB.trackedSetID
             end
