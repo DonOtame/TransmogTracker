@@ -2,7 +2,7 @@ local ADDON_NAME, ns = ...
 
 -- English is the base locale; other locales override individual keys below.
 local L = {
-    STOP_TRACKING = "Stop Tracking",
+    STOP_TRACKING = "Stop",
     TRACK_BUTTON = "Track",
     SET_COMPLETE = "Set complete!",
     PIECES_FORMAT = "%d/%d pieces (%d%%)",
@@ -19,7 +19,7 @@ ns.L = L
 
 local locale = GetLocale()
 if locale == "esES" or locale == "esMX" then
-    L.STOP_TRACKING = "Detener seguimiento"
+    L.STOP_TRACKING = "Detener"
     L.TRACK_BUTTON = "Seguir"
     L.SET_COMPLETE = "Set completo!"
     L.PIECES_FORMAT = "%d/%d piezas (%d%%)"
