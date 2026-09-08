@@ -41,6 +41,12 @@ your Objective Tracker and updates as you go.
 
 Done tracking something? `/tt stop` clears it.
 
+## Support
+
+If this saved you some Wardrobe-alt-tabbing, you can throw a few bucks my
+way on [Patreon](https://www.patreon.com/cw/DonOtame) — totally optional,
+the addon stays free either way.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
