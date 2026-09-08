@@ -2,58 +2,50 @@
 
 > Track missing pieces of an official transmog set, anchored to your Objective Tracker.
 
-A World of Warcraft (retail) addon that tracks one official transmog
-(appearance) set at a time and shows which pieces you're still missing —
-the same "track this recipe" experience professions already have, but for
-transmog sets.
+Ever open the Wardrobe, see **"7/10"** on a set you've been farming for weeks,
+and have no idea which piece you're actually missing — or whether you can
+even wear it? TransmogTracker fixes that.
 
-## Features
+## What it does
 
-- Adds a **Track** button to the Sets tab of Collections → Appearances,
-  right next to the difficulty selector, so it always tracks the exact
-  difficulty variant you're looking at (LFR/Normal/Heroic/Mythic).
-- Shows a small window anchored to your Objective (quest) Tracker listing
-  only the pieces you're missing, with an icon and name for each.
-- Updates live as you collect pieces — no need to reopen the Wardrobe.
-- Flags a piece with a warning icon if it isn't wearable by your current
-  character (it still counts toward your account-wide collection).
-- Collapsible, draggable, remembers its position.
-- Saved per character.
-- English and Spanish (`esES`/`esMX`) locales; defaults to English
-  elsewhere.
+- **One click and you're tracking it.** A Track button sits right next to
+  the difficulty selector when you preview a set — pick LFR, Normal,
+  Heroic or Mythic, hit Track, done.
+- **Always know what's left, without leaving your quest tracker.** A small
+  window anchored right below your Objective Tracker shows exactly which
+  pieces you still need — nothing more.
+- **Updates itself.** Loot a piece, learn an appearance — the list shrinks
+  on its own. No reopening the Wardrobe to check.
+- **Honest about what you can wear.** If a piece isn't equippable on this
+  character, it tells you — but it still counts toward your account-wide
+  collection, so you're not left guessing.
+- **Stays out of the way.** Collapsible, draggable, remembers where you
+  left it, and tracks separately per character.
+- **Speaks your language.** English and Spanish out of the box.
 
 ## Install
 
-Copy the `TransmogTracker` folder into:
+Drop the `TransmogTracker` folder into:
 
 ```
 World of Warcraft/_retail_/Interface/AddOns/
 ```
 
-Or install via CurseForge / Wago once published there.
+Or grab it from CurseForge / Wago once it's up there.
 
-## Usage
+## How to use it
 
-Open **Collections → Appearances → Sets**, pick a set and difficulty, and
-click **Track**. A tracker window will appear anchored to your Objective
-Tracker.
+Open **Collections → Appearances → Sets**, preview any set, pick your
+difficulty, click **Track**. That's it — the tracker appears next to your
+quest log and updates as you go.
 
-Slash command fallback (also useful if the in-game button ever fails to
-hook, e.g. after a big Blizzard UI patch):
+Backup command, for when you already know the set's ID or the in-game
+button ever misbehaves after a big UI patch:
 
 ```
-/tt track <setID>   -- track a set by its TransmogSetID
-/tt stop             -- stop tracking
+/tt track <setID>
+/tt stop
 ```
-
-## Contributing / development
-
-- `main` — release branch, tagged for CurseForge/Wago releases.
-- `develop` — active development branch.
-
-No external libraries; plain Lua + the WoW retail API
-(`C_TransmogSets`, `C_TransmogCollection`). See `docs/` for the original
-design spec and implementation plan.
 
 ## License
 
