@@ -35,17 +35,11 @@ Or grab it from CurseForge / Wago once it's up there.
 
 ## How to use it
 
-Open **Collections → Appearances → Sets**, preview any set, pick your
-difficulty, click **Track**. That's it — the tracker appears next to your
-quest log and updates as you go.
+Open **Collections → Appearances → Sets**, click into any set, pick your
+difficulty, click **Track**. That's it — the tracker appears anchored to
+your Objective Tracker and updates as you go.
 
-Backup command, for when you already know the set's ID or the in-game
-button ever misbehaves after a big UI patch:
-
-```
-/tt track <setID>
-/tt stop
-```
+Done tracking something? `/tt stop` clears it.
 
 ## License
 
