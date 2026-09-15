@@ -19,9 +19,6 @@ frame:SetScript("OnDragStart", frame.StartMoving)
 frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
 frame:Hide()
 
-UISpecialFrames = UISpecialFrames or {}
-tinsert(UISpecialFrames, "TransmogTrackerFrame")
-
 frame.collapsed = false
 
 frame.collapseButton = CreateFrame("Button", nil, frame)

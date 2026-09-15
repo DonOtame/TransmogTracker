@@ -11,7 +11,6 @@
   Tracker.
 - Missing pieces now show which slot they are (Head, Shoulder, Cloak,
   etc.) alongside the item name.
-- The tracker window now closes with Escape.
 
 ## v1.0.0
 
