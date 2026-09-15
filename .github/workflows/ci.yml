@@ -1,0 +1,23 @@
+name: Lua syntax check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "5.1"
+
+      - name: Check syntax
+        run: |
+          for f in *.lua; do
+            luac5.1 -p "$f"
+          done

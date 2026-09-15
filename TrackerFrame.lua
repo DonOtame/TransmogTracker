@@ -19,6 +19,9 @@ frame:SetScript("OnDragStart", frame.StartMoving)
 frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
 frame:Hide()
 
+UISpecialFrames = UISpecialFrames or {}
+tinsert(UISpecialFrames, "TransmogTrackerFrame")
+
 frame.collapsed = false
 
 frame.collapseButton = CreateFrame("Button", nil, frame)
@@ -116,7 +119,12 @@ function TrackerFrame:Populate(status)
         local row = AcquireRow(i)
         local itemName, _, _, _, _, _, _, _, _, itemIcon = GetItemInfo(piece.itemID)
         row.icon:SetTexture(itemIcon or 134400) -- 134400 = default question-mark icon
-        row.text:SetText(itemName or string.format(ns.L.ITEM_FALLBACK, piece.itemID))
+        local displayName = itemName or string.format(ns.L.ITEM_FALLBACK, piece.itemID)
+        if piece.slotName then
+            row.text:SetText(string.format(ns.L.SLOT_ITEM_FORMAT, piece.slotName, displayName))
+        else
+            row.text:SetText(displayName)
+        end
         row.warning:SetShown(not piece.usableByPlayer)
         if not piece.usableByPlayer then
             hasWarning = true
@@ -212,7 +220,11 @@ function TrackerFrame:AnchorToObjectiveTracker()
     local frame = self.frame
     frame:ClearAllPoints()
 
-    if ObjectiveTrackerFrame and ObjectiveTrackerFrame:IsShown() then
+    -- A manual drag opts the frame out of auto-anchoring, otherwise the
+    -- 0.2s watcher below immediately snaps it back to the Objective
+    -- Tracker (which is shown in nearly all normal gameplay) and the
+    -- dragged position never has any visible effect. /tt anchor clears it.
+    if not TransmogTrackerDB.manualPosition and ObjectiveTrackerFrame and ObjectiveTrackerFrame:IsShown() then
         frame:SetPoint("TOPRIGHT", ObjectiveTrackerFrame, "BOTTOMRIGHT", 0, -10)
         frame:SetWidth(ObjectiveTrackerFrame:GetWidth())
     elseif TransmogTrackerDB.framePosition then
@@ -221,6 +233,12 @@ function TrackerFrame:AnchorToObjectiveTracker()
     else
         frame:SetPoint("CENTER", UIParent, "CENTER", 300, 0)
     end
+end
+
+function TrackerFrame:ResetAnchor()
+    TransmogTrackerDB.manualPosition = nil
+    TransmogTrackerDB.framePosition = nil
+    self:AnchorToObjectiveTracker()
 end
 
 local anchorThrottle = 0
@@ -240,4 +258,23 @@ TrackerFrame.frame:SetScript("OnDragStop", function(self)
     self:StopMovingOrSizing()
     local point, _, relativePoint, x, y = self:GetPoint()
     TransmogTrackerDB.framePosition = { point = point, relativePoint = relativePoint, x = x, y = y }
+    TransmogTrackerDB.manualPosition = true
+    self:SetWidth(220)
+end)
+
+-- GetItemInfo can miss on first call for items not yet cached client-side,
+-- leaving a row stuck on its "Item %d" fallback until something else
+-- triggers a Populate. Re-render once the server delivers the data.
+local itemInfoWatcher = CreateFrame("Frame")
+itemInfoWatcher:RegisterEvent("GET_ITEM_INFO_RECEIVED")
+itemInfoWatcher:SetScript("OnEvent", function(self, event, itemID, success)
+    if not success or not TrackerFrame.lastStatus then
+        return
+    end
+    for _, piece in ipairs(TrackerFrame.lastStatus.missing) do
+        if piece.itemID == itemID then
+            TrackerFrame:Populate(TrackerFrame.lastStatus)
+            return
+        end
+    end
 end)

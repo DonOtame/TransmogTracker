@@ -27,11 +27,17 @@ function SetData:BuildSetStatus(setID)
             if entry.collected then
                 table.insert(collected, sourceInfo.itemID)
             else
+                -- GetItemInfoInstant is client-side static data, available
+                -- immediately (unlike GetItemInfo, which can miss until the
+                -- server sends full item data) - itemEquipLoc maps to a
+                -- localized slot name via the INVTYPE_* global strings.
+                local _, _, _, itemEquipLoc = GetItemInfoInstant(sourceInfo.itemID)
                 table.insert(missing, {
                     itemID = sourceInfo.itemID,
                     sourceID = entry.appearanceID,
                     categoryID = sourceInfo.categoryID,
                     usableByPlayer = sourceInfo.isValidSourceForPlayer ~= false,
+                    slotName = itemEquipLoc and _G[itemEquipLoc] or nil,
                 })
             end
         end

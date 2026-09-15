@@ -47,6 +47,9 @@ SlashCmdList["TRANSMOGTRACKER"] = function(msg)
     elseif command == "stop" then
         ns.TrackerFrame:StopTracking()
         ns.Print(ns.L.TRACKING_STOPPED)
+    elseif command == "anchor" then
+        ns.TrackerFrame:ResetAnchor()
+        ns.Print(ns.L.ANCHOR_RESET)
     else
         ns.Print(ns.L.USAGE_GENERAL)
     end
