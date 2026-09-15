@@ -13,8 +13,10 @@ local L = {
     NOW_TRACKING = "Now tracking set %d",
     INVALID_SET = "Set %d is not valid.",
     TRACKING_STOPPED = "Tracking stopped.",
-    USAGE_GENERAL = "Usage: /tt track <setID> | /tt stop",
+    USAGE_GENERAL = "Usage: /tt track <setID> | /tt stop | /tt anchor",
     WARNING_LEGEND = "Not wearable on this character, but still counts toward your account-wide collection.",
+    ANCHOR_RESET = "Position reset - following the Objective Tracker again.",
+    SLOT_ITEM_FORMAT = "%s: %s",
 }
 ns.L = L
 
@@ -31,8 +33,10 @@ if locale == "esES" or locale == "esMX" then
     L.NOW_TRACKING = "Trackeando set %d"
     L.INVALID_SET = "Set %d no valido."
     L.TRACKING_STOPPED = "Seguimiento detenido."
-    L.USAGE_GENERAL = "Uso: /tt track <setID> | /tt stop"
+    L.USAGE_GENERAL = "Uso: /tt track <setID> | /tt stop | /tt anchor"
     L.WARNING_LEGEND = "No equipable en este personaje, pero igual cuenta para tu coleccion de cuenta."
+    L.ANCHOR_RESET = "Posicion reiniciada - siguiendo el tracker de misiones de nuevo."
+    L.SLOT_ITEM_FORMAT = "%s: %s"
 end
 
 function ns.Print(msg)
