@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v1.1.0
 
 - Fixed: missing-piece rows could get stuck showing "Item %d" instead of
   the real name when item data wasn't cached yet — now refreshes once the

@@ -2,7 +2,7 @@
 ## Title: TransmogTracker
 ## Notes: Trackea piezas faltantes de un set oficial de transfiguracion, ancla al tracker de misiones
 ## Author: DonOtame
-## Version: 1.0.0
+## Version: 1.1.0
 ## SavedVariablesPerCharacter: TransmogTrackerDB
 
 Locale.lua
