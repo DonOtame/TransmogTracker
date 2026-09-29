@@ -132,6 +132,9 @@ local function AcquireSection(index)
     section.closeButton = CreateFrame("Button", nil, section)
     section.closeButton:SetSize(16, 16)
     section.closeButton:SetPoint("TOPRIGHT", -4, -2)
+    -- The header is a sibling Button spanning the same area; without an
+    -- explicit higher level it can win the click and just collapse the set.
+    section.closeButton:SetFrameLevel(section.header:GetFrameLevel() + 2)
     section.closeButton.label = section.closeButton:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     section.closeButton.label:SetPoint("CENTER", 0, 1)
     section.closeButton.label:SetText("\195\151") -- U+00D7 multiplication sign
