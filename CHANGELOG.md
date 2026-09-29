@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.2.1
+
+- Packaging: releases are now also published to CurseForge. No changes to
+  the addon itself.
+
 ## v1.2.0
 
 - Added: track several sets at once. Each set gets its own collapsible
