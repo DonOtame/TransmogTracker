@@ -12,10 +12,13 @@ even wear it? TransmogTracker fixes that.
 
 - **One click and you're tracking it.** A Track button sits right next to
   the difficulty selector when you preview a set — pick LFR, Normal,
-  Heroic or Mythic, hit Track, done.
+  Heroic or Mythic, hit Track, done. Click it again to untrack.
+- **Track as many sets as you like.** Each one gets its own collapsible
+  section with a progress bar.
 - **Always know what's left, without leaving your quest tracker.** A small
   window anchored right below your Objective Tracker shows exactly which
-  pieces you still need — nothing more.
+  slots you still need (Head, Chest, Shoulder…) and the item for each —
+  nothing more.
 - **Updates itself.** Loot a piece, learn an appearance — the list shrinks
   on its own. No reopening the Wardrobe to check.
 - **Honest about what you can wear.** If a piece isn't equippable on this
@@ -43,7 +46,10 @@ your Objective Tracker and updates as you go.
 
 ![Tracker window anchored to the Objective Tracker](img/frame.png)
 
-Done tracking something? `/tt stop` clears it.
+Done tracking something? Hover its header and click the **×**, click
+**Untrack** in the Wardrobe, or use `/tt stop <setID>`. `/tt stop` on its
+own clears everything, and `/tt anchor` puts a dragged tracker back under
+the Objective Tracker.
 
 ## Support
 

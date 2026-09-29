@@ -46,7 +46,15 @@ function SetData:BuildSetStatus(setID)
     local total = #collected + #missing
     local percent = total > 0 and math.floor((#collected / total) * 100) or 100
 
-    table.sort(missing, function(a, b) return (a.categoryID or 99) < (b.categoryID or 99) end)
+    -- table.sort isn't stable; break ties on itemID so rows don't reshuffle
+    -- between refreshes.
+    table.sort(missing, function(a, b)
+        local ca, cb = a.categoryID or 99, b.categoryID or 99
+        if ca ~= cb then
+            return ca < cb
+        end
+        return a.itemID < b.itemID
+    end)
 
     return {
         setID = setID,

@@ -1,19 +1,36 @@
 local ADDON_NAME, ns = ...
 
+-- Track/Untrack label follows whether the currently selected set is tracked.
+local function UpdateButtonLabel(button)
+    local setID = WardrobeCollectionFrame.SetsCollectionFrame.selectedSetID
+    local tracked = setID and ns.TrackerFrame:IsTracked(setID)
+    button:SetText(tracked and ns.L.UNTRACK_BUTTON or ns.L.TRACK_BUTTON)
+end
+
 local function GetOrCreateDetailTrackButton(detailsFrame)
     if detailsFrame.TransmogTrackerButton then
         return detailsFrame.TransmogTrackerButton
     end
     local button = CreateFrame("Button", nil, detailsFrame, "UIPanelButtonTemplate")
     button:SetSize(70, 22)
-    button:SetText(ns.L.TRACK_BUTTON)
     button:SetPoint("BOTTOMRIGHT", detailsFrame, "BOTTOMRIGHT", -10, 10)
     button:SetScript("OnClick", function()
         local setID = WardrobeCollectionFrame.SetsCollectionFrame.selectedSetID
-        if setID then
-            ns.TrackerFrame:SetTrackedSet(setID)
+        if not setID then
+            return
+        end
+        if ns.TrackerFrame:IsTracked(setID) then
+            ns.TrackerFrame:RemoveSet(setID)
+        else
+            ns.TrackerFrame:AddSet(setID)
         end
     end)
+    -- Also covers tracking changes made elsewhere (X button, /tt).
+    ns.TrackerFrame.onChanged = function()
+        if button:IsVisible() then
+            UpdateButtonLabel(button)
+        end
+    end
     detailsFrame.TransmogTrackerButton = button
     return button
 end
@@ -42,7 +59,9 @@ local function TryInstallHook()
         local ok, err = pcall(function()
             local detailsFrame = WardrobeCollectionFrame.SetsCollectionFrame.DetailsFrame
             if detailsFrame and detailsFrame.VariantSetsDropdown then
-                GetOrCreateDetailTrackButton(detailsFrame):Show()
+                local button = GetOrCreateDetailTrackButton(detailsFrame)
+                button:Show()
+                UpdateButtonLabel(button)
             end
         end)
         if not ok then
