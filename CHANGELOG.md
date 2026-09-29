@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.2.2
+
+- Fixed: the X that appears when hovering a set's header only collapsed
+  the set instead of stopping tracking it. It now stops tracking.
+
 ## v1.2.1
 
 - Packaging: releases are now also published to CurseForge. No changes to
